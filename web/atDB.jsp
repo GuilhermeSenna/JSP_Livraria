@@ -77,24 +77,22 @@
                     <td>Selecione a editora:</td>
                     <td><select class="form-control form-control-sm" id="Lista_e" name="select" onchange="carregaEditora()">
                         <% 
-                        Connection conn = null;
                         Statement st = null;
-                        
-                        Class.forName("com.mysql.jdbc.Driver").newInstance();
-                        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/livraria", "root", "");
+                        ResultSet rs2 = null;
+                       
                         st = conn.createStatement();
-                        rs = st.executeQuery("select idedit, editora from editoras"); 
+                        rs2 = st.executeQuery("select idedit, editora from editoras"); 
                         
-                        while (rs.next()) { %>
-                        <option value="<%= rs.getString("idedit")%>">
-                          <%= rs.getString("editora")%>
+                        while (rs2.next()) { %>
+                        <option value="<%= rs2.getString("idedit")%>">
+                          <%= rs2.getString("editora")%>
                         </option>
                         <%} %>
                     </td>
                 </tr>
                 <tr>
                     <td>idEditora:</td>
-                    <td><input class="form-control" id="Edito" type="text" name="idEditora"/></td>
+                    <td><input class="form-control" id="Edito" type="text" name="idEditora" value="<%= rs.getString("ideditora")%>"/></td>
                 </tr>
                 <tr>
                     <td colspan="2">

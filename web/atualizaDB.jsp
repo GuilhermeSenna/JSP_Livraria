@@ -11,6 +11,10 @@
 	String edicao = request.getParameter("edicao");
 	String publicacao = request.getParameter("publicacao");
 	String descricao = request.getParameter("descricao");
+        String idEditora = request.getParameter("idEditora");
+        
+        System.out.println(idEditora);
+
 
 	if(id!=null) {
 		Connection conn = null;
@@ -20,14 +24,15 @@
 		    Class.forName("com.mysql.jdbc.Driver").newInstance( );
 		    conn =
 		    DriverManager.getConnection("jdbc:mysql://localhost/livraria", "root","");
- 	 	    String SQL = "UPDATE livros SET titulo=?,  edicao=?, publicacao=?, descricao=? " +
+ 	 	    String SQL = "UPDATE livros SET titulo=?,  edicao=?, publicacao=?, descricao=?, ideditora=? " +
 	        		    "where id=?";
 		    pst = conn.prepareStatement(SQL);                    
 		    pst.setString(1, titulo);
 		    pst.setInt(2, Integer.parseInt(edicao));
 		    pst.setString(3, publicacao);
 		    pst.setString(4, descricao);
-                                      pst.setString(5, id);
+                    pst.setString(5, idEditora);
+                                      pst.setString(6, id);
 		    pst.executeUpdate( );
 		    pst.clearParameters( );
 	                     %>                       
