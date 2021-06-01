@@ -6,6 +6,13 @@
     <head>
         <meta charset="UTF-8">
         <title>Atualizando dados via JDBC com JSP</title>
+        <script>
+        //função para carregar valores do bd tabela EDITORA
+        function carregaEditora() {
+          var select_c = document.getElementById("Lista_e").value;
+          document.getElementById("Edito").value = select_c;
+        }
+      </script>
     </head>
     <body>
         <%
@@ -65,6 +72,29 @@
                         <textarea class="form-control" name="descricao" cols="50" style= "padding: 24px 127px;" style= "text-align: right;"  >
                             <%= rs.getString("descricao")%></textarea>
                     </td>
+                </tr>
+                <tr>
+                    <td>Selecione a editora:</td>
+                    <td><select class="form-control form-control-sm" id="Lista_e" name="select" onchange="carregaEditora()">
+                        <% 
+                        Connection conn = null;
+                        Statement st = null;
+                        
+                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/livraria", "root", "");
+                        st = conn.createStatement();
+                        rs = st.executeQuery("select idedit, editora from editoras"); 
+                        
+                        while (rs.next()) { %>
+                        <option value="<%= rs.getString("idedit")%>">
+                          <%= rs.getString("editora")%>
+                        </option>
+                        <%} %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>idEditora:</td>
+                    <td><input class="form-control" id="Edito" type="text" name="idEditora"/></td>
                 </tr>
                 <tr>
                     <td colspan="2">

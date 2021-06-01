@@ -12,6 +12,7 @@ String titulo = request.getParameter("titulo");
 String edicao = request.getParameter("edicao");
 String publicacao = request.getParameter("publicacao");
 String descricao = request.getParameter("descricao");
+String idEditora = request.getParameter("idEditora");
 
 Connection conn =null;
 PreparedStatement pst =null;
@@ -20,12 +21,13 @@ try
 Class.forName("com.mysql.jdbc.Driver").newInstance( );
 conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/livraria", "root","");
 
-String SQL = "INSERT INTO livros (titulo,edicao,publicacao,descricao)values (?, ?, ?, ?)";
+String SQL = "INSERT INTO livros (titulo,edicao,publicacao,descricao, ideditora)values (?, ?, ?, ?, ?)";
 pst = conn.prepareStatement(SQL);
 pst.setString(1, titulo);
 pst.setInt(2, Integer.parseInt(edicao));
 pst.setInt(3, Integer.parseInt(publicacao));
 pst.setString(4, descricao);
+pst.setString(5, idEditora);
 pst.executeUpdate( );
 pst.clearParameters( );
 }

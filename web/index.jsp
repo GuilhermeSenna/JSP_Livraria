@@ -6,6 +6,13 @@
     <head>
         <meta charset="UTF-8">
         <title>Conectando sua aplicação JSP ao MySQL via JDBC</title>
+        <script>
+    //função para carregar valores do bd tabela EDITORA
+    function carregaEditora() {
+      var select_c = document.getElementById("Lista_e").value;
+      document.getElementById("Edito").value = select_c;
+    }
+  </script>
     </head>
     <body>
         <div class="container">
@@ -32,15 +39,27 @@
                 </tr>
                 <tr>
                     <td>Selecione a editora:</td>
-<!--                    <td><select class="form-control form-control-sm" id="Lista_p" name="select" onchange="carregaProduto()">
-                        <%
-                            
-                            %>
-                    </td>-->
+                    <td><select class="form-control form-control-sm" id="Lista_e" name="select" onchange="carregaEditora()">
+                        <% 
+                        Connection conn = null;
+                        Statement st = null;
+                        ResultSet rs = null;
+                        
+                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/livraria", "root", "");
+                        st = conn.createStatement();
+                        rs = st.executeQuery("select idedit, editora from editoras"); 
+                        
+                        while (rs.next()) { %>
+                        <option value="<%= rs.getString("idedit")%>">
+                          <%= rs.getString("editora")%>
+                        </option>
+                        <%} %>
+                    </td>
                 </tr>
                 <tr>
                     <td>idEditora:</td>
-                    <td><input class="form-control" type="text"name="idEditora"/></td>
+                    <td><input class="form-control" id="Edito" type="text" name="idEditora"/></td>
                 </tr>
                 <tr>
                     <td colspan="2">
@@ -67,16 +86,13 @@
             </thead>
             <tbody>
                 <%
-                    Connection conn = null;
-                    Statement st = null;
                     Statement st2 = null;
-                    ResultSet rs = null;
                     ResultSet rs2 = null;
                     String editora = "";
                     try {
 //                        Class.forName("com.mysql.jdbc.Driver").newInstance();
-                        Class.forName("com.mysql.jdbc.Driver").newInstance();
-                        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/livraria", "root", "");
+//                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+//                        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/livraria", "root", "");
                         st = conn.createStatement();
                         rs = st.executeQuery("select id, titulo,edicao,publicacao,descricao, ideditora from livros");                 
 //                        rs2 = st2.executeQuery("select editora from editoras where idedit = ", rs.getString("ideditora"));                     
